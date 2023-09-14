@@ -4,7 +4,7 @@ This is a sample implementation of the Corbado web component being integrated in
 
 ## File structure
 
-- `src/main/java/com/example/springboot/index.html`: The controller that serves the login and profile page.
+- `src/main/java/com/example/springboot/FrontendController.java`: The controller that serves the login and profile page.
 - `src/main/resources/application.properties`: Contains the environment variables.
 
 ## Prerequisites

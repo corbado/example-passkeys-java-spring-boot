@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Page</title>
+</head>
+<body>
+
+<h2>:/protected 🔒</h2>
+<p>User ID: <span th:text="${USER_ID}"></span></p>
+<p>Name: <span th:text="${USER_NAME}"></span></p>
+<p>Email: <span th:text="${USER_EMAIL}"></span></p>
+<!-- Import Corbado SDK -->
+<script th:src="'https://' + ${PROJECT_ID} + '.frontendapi.corbado.io/auth.js'"></script>
+<script th:src="'https://' + ${PROJECT_ID} + '.frontendapi.corbado.io/utility.js'"></script>
+<!-- Logout button -->
+<button id="logoutButton">Logout</button>
+
+<script>
+    // Create a new session
+    const session = new Corbado.Session("${PROJECT_ID}");
+    // Get logout button
+    const logoutButton = document.getElementById('logoutButton');
+
+    // Add event listener to logout button
+    logoutButton.addEventListener('click', function() {
+        session.logout()
+            .then(() => {
+                window.location.replace("/");
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+</script>
+<p>Your Project ID: <span th:text="${PROJECT_ID}"></span></p>
+</body>
+</html>

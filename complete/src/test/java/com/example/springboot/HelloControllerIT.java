@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.corbado.springboot;
 
 import org.junit.jupiter.api.Test;
 

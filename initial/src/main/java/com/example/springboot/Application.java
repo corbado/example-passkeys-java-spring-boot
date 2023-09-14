@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.corbado.springboot;
 
 import java.util.Arrays;
 

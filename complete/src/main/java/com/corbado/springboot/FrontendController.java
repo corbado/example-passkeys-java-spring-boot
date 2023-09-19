@@ -51,7 +51,7 @@ public class FrontendController {
             model.addAttribute("USER_ID", payloadJSON.get("sub"));
             model.addAttribute("USER_NAME", payloadJSON.get("name"));
             model.addAttribute("USER_EMAIL", payloadJSON.get("email"));
-            return "home";
+            return "profile";
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

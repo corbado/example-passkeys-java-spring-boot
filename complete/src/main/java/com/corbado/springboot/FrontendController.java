@@ -23,8 +23,8 @@ public class FrontendController {
     }
 
 
-    @RequestMapping("/home")
-    public String home(Model model, @CookieValue("cbo_short_session") String cboShortSession) {
+    @RequestMapping("/profile")
+    public String profile(Model model, @CookieValue("cbo_short_session") String cboShortSession) {
         String issuer = "https://" + projectID + ".frontendapi.corbado.io";
         String jwks_uri = "https://" + projectID + ".frontendapi.corbado.io/.well-known/jwks";
 

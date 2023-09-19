@@ -4,10 +4,20 @@ This is a sample implementation of the Corbado web component being integrated in
 
 ## File structure
 
-- `src/main/java/com/example/springboot/FrontendController.java`: The controller that serves the login and profile page.
-- `src/main/resources/templates/index.html`: The template of the login page.
-- `src/main/resources/templates/profile.html`: The template of the profile page.
-- `src/main/resources/application.properties`: Contains the environment variables.
+```
+├── complete
+|   ├── src/main
+|   |   ├── java/com/corbado/springboot
+|   |   |   ├── FrontendController.java   # Main controller which renders the HTML templates
+|   |   |   └── JsonReader.java           # Fetches json from web URLs
+|   |   |
+|   |   └── resources
+|   |       ├── application.properties    # Contains the environment variables
+|   |       └── templates
+|   |           ├── index.html            # Login page with the webcomponent
+|   |           └── profile.html          # Profile page with user information
+|   └── pom.xml                           # Contains info about the project and implementation details
+```
 
 ## Prerequisites
 

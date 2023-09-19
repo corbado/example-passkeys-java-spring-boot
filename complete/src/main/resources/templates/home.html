@@ -15,9 +15,10 @@
 <!-- Logout button -->
 <button id="logoutButton">Logout</button>
 
-<script>
-    // Create a new session
-    const session = new Corbado.Session("${PROJECT_ID}");
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const projectID = /*[[@{${PROJECT_ID}}]]*/ '';
+    const session = new Corbado.Session(projectID);
     // Get logout button
     const logoutButton = document.getElementById('logoutButton');
 

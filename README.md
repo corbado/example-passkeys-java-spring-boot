@@ -1,6 +1,8 @@
-# Passkey integration example for Java Spring Boot
+# Passkey-First Authentication with Java Spring Boot and Corbado
 
 This is a sample implementation of a Java Spring Boot application that offers passkey authentication. For simple passkey-first authentication, the Corbado web component is used.
+
+Please see the [full blog post](https://www.corbado.com/blog/passkeys-java-spring-boot) to understand the detailed steps needed to integrate passkeys into Java Spring Boot apps.
 
 ## File structure
 

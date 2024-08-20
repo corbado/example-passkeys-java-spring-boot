@@ -35,3 +35,5 @@ Then you can run the project locally by executing the following command inside t
 ```bash
 ./mvnw spring-boot:run
 ```
+
+You can acces the server via http://localhost:8080/

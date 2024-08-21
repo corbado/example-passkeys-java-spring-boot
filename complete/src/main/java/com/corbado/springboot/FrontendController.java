@@ -1,62 +1,91 @@
 package com.corbado.springboot;
 
-import com.nimbusds.jose.JWSVerifier;
-import com.nimbusds.jose.crypto.RSASSAVerifier;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jwt.SignedJWT;
-import org.json.JSONObject;
+import com.corbado.entities.SessionValidationResult;
+import com.corbado.exceptions.StandardException;
+import com.corbado.generated.model.Identifier;
+import com.corbado.sdk.Config;
+import com.corbado.sdk.CorbadoSdk;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class FrontendController {
 
-    @Value("${projectid}")
-    private String projectID;
+  /** The project ID. */
+  @Value("${projectID}")
+  private String projectID;
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        model.addAttribute("PROJECT_ID", projectID);
-        return "index";
+  /** The api secret. */
+  @Value("${apiSecret}")
+  private String apiSecret;
+
+  /** The sdk. */
+  private final CorbadoSdk sdk;
+
+  /**
+   * Index.
+   *
+   * @param model the model
+   * @return the string
+   * @throws StandardException
+   */
+  @Autowired
+  public FrontendController(
+      @Value("${projectID}") final String projectID, @Value("${apiSecret}") final String apiSecret)
+      throws StandardException {
+    final Config config = new Config(projectID, apiSecret);
+    this.sdk = new CorbadoSdk(config);
+  }
+
+  /**
+   * Index.
+   *
+   * @param model the model
+   * @return the string
+   */
+  @RequestMapping("/")
+  public String index(final Model model) {
+    model.addAttribute("PROJECT_ID", projectID);
+    return "index";
+  }
+
+  /**
+   * Profile.
+   *
+   * @param model the model
+   * @param cboShortSession the cbo short session
+   * @return the string
+   */
+  @RequestMapping("/profile")
+  public String profile(
+      final Model model, @CookieValue("cbo_short_session") final String cboShortSession) {
+    try {
+      // Validate user from token
+
+      final SessionValidationResult validationResp =
+          sdk.getSessions().getAndValidateCurrentUser(cboShortSession);
+      // get list of emails from identifier service
+      List<Identifier> emails;
+
+      emails = sdk.getIdentifiers().listAllEmailsByUserId(validationResp.getUserID());
+
+      //
+      model.addAttribute("PROJECT_ID", projectID);
+      model.addAttribute("USER_ID", validationResp.getUserID());
+      model.addAttribute("USER_NAME", validationResp.getFullName());
+      // select email of your liking or list all emails
+      model.addAttribute("USER_EMAIL", emails.get(0).getValue());
+
+    } catch (final Exception e) {
+      System.out.println(e.getMessage());
+      model.addAttribute("ERROR", e.getMessage());
+      return "error";
     }
-
-
-    @RequestMapping("/profile")
-    public String profile(Model model, @CookieValue("cbo_short_session") String cboShortSession) {
-        String issuer = "https://" + projectID + ".frontendapi.corbado.io";
-        String jwks_uri = "https://" + projectID + ".frontendapi.corbado.io/.well-known/jwks";
-
-        try {
-            JSONObject json = JsonReader.readJsonFromUrl(jwks_uri);
-            JSONObject publicKey = json.getJSONArray("keys").getJSONObject(0);
-            SignedJWT signedJWT = SignedJWT.parse(cboShortSession);
-            RSAKey rsaKey = RSAKey.parse(publicKey.toString());
-            JWSVerifier verifier = new RSASSAVerifier(rsaKey);
-            boolean isValid = signedJWT.verify(verifier);
-            if (!isValid) {
-                model.addAttribute("ERROR", "JWT token is not valid!");
-                return "error";
-            }
-
-            JSONObject payloadJSON = new JSONObject(signedJWT.getPayload().toJSONObject());
-            String kid = payloadJSON.getString("iss");
-            if (!kid.equals(issuer)) {
-                model.addAttribute("ERROR", "JWT token issuer does not match!");
-                return "error";
-            }
-
-            model.addAttribute("PROJECT_ID", projectID);
-            model.addAttribute("USER_ID", payloadJSON.get("sub"));
-            model.addAttribute("USER_NAME", payloadJSON.get("name"));
-            model.addAttribute("USER_EMAIL", payloadJSON.get("email"));
-            return "profile";
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            model.addAttribute("ERROR", e.getMessage());
-            return "error";
-        }
-    }
+    return "profile";
+  }
 }

@@ -1,13 +1,32 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Corbado Login</title>
-</head>
-<body>
-<script th:src="'https://' + ${PROJECT_ID} + '.frontendapi.corbado.io/auth.js'"></script>
-<corbado-auth th:project-id="${PROJECT_ID}" conditional="yes">
-    <input name="username" id="corbado-username"
-           required autocomplete="webauthn"/>
-</corbado-auth>
-</body>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+	<link
+	    rel="stylesheet"
+	    href="https://unpkg.com/@corbado/web-js@2.8.0/dist/bundle/index.css"
+	/>
+	<script src="https://unpkg.com/@corbado/web-js@2.8.0/dist/bundle/index.js" defer></script>
+  </head>
+  
+  <body>
+    <script th:inline="javascript">
+		document.addEventListener('DOMContentLoaded', async () => {
+	         await Corbado.load({
+	           projectId: /*[[${PROJECT_ID}]]*/,
+	           darkMode: "off",
+	           setShortSessionCookie: "true",
+	         });
+	         const authElement = document.getElementById('corbado-auth');
+	           Corbado.mountAuthUI(authElement, {
+	             onLoggedIn: () => {
+	               window.location.href = '/profile';
+	             },
+	           });
+
+
+	     });
+    </script>
+    
+    <div id="corbado-auth"></div>
+  </body>
 </html>

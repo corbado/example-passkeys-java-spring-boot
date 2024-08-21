@@ -1,6 +1,6 @@
 # Java Spring Boot Passkey Example
 
-This is a sample implementation of a Java Spring Boot application that offers passkey authentication. For simple passkey-first authentication, the Corbado web component is used.
+This is a sample implementation of a Java Spring Boot application that offers passkey authentication. For simple passkey-first authentication, the Corbado UI component is used.
 
 Please see the [full blog post](https://www.corbado.com/blog/passkeys-java-spring-boot) to understand the detailed steps needed to integrate passkeys into Java Spring Boot apps.
 
@@ -11,12 +11,11 @@ Please see the [full blog post](https://www.corbado.com/blog/passkeys-java-sprin
 |   ├── src/main
 |   |   ├── java/com/corbado/springboot
 |   |   |   ├── FrontendController.java   # Main controller which renders the HTML templates
-|   |   |   └── JsonReader.java           # Fetches JSONs from web URLs
 |   |   |
 |   |   └── resources
 |   |       ├── application.properties    # Contains the environment variables
 |   |       └── templates
-|   |           ├── index.html            # Login page with the Corbado web component
+|   |           ├── index.html            # Login page with the Corbado UI component
 |   |           └── profile.html          # Profile page with user information
 |   └── pom.xml                           # Contains info about the project and implementation details
 ```

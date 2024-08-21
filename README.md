@@ -23,16 +23,16 @@ Please see the [full blog post](https://www.corbado.com/blog/passkeys-java-sprin
 ## Prerequisites
 
 Please follow the steps in [Getting started](https://docs.corbado.com/overview/getting-started) to create and configure
-a project in the [Corbado developer panel](https://app.corbado.com/signin#register).
+a project in the [Corbado developer panel](https://app.corbado.com/signin?framework=Java-Spring&technology=passkeys#register).
 
-Paste your Corbado project ID and apiSecret in the applications.properties file.
+Paste your Corbado project ID and API secret in the `applications.properties` file.
 
 ## Usage
 
-Then you can run the project locally by executing the following command inside the `/complete` folder:
+Then, you can run the project locally by executing the following command inside the `/complete` folder:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-You can acces the server via http://localhost:8080/
+You can access the server via http://localhost:8080/

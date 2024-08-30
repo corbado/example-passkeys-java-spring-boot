@@ -69,6 +69,12 @@ public class FrontendController {
 
       final SessionValidationResult validationResp =
           sdk.getSessions().getAndValidateCurrentUser(cboShortSession);
+
+      if (validationResp.getError() != null) {
+        // Handle invalid token. In this case we will forward the error message to the page.
+        throw validationResp.getError();
+      }
+
       // get list of emails from identifier service
       List<Identifier> emails;
 

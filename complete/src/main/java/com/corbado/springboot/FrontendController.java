@@ -38,6 +38,7 @@ public class FrontendController {
   public FrontendController(
       @Value("${projectID}") final String projectID, @Value("${apiSecret}") final String apiSecret)
       throws StandardException {
+	// Or use Config builder
     final Config config = new Config(projectID, apiSecret);
     this.sdk = new CorbadoSdk(config);
   }
@@ -66,21 +67,12 @@ public class FrontendController {
       final Model model, @CookieValue("cbo_short_session") final String cboShortSession) {
     try {
       // Validate user from token
-
       final SessionValidationResult validationResp =
           sdk.getSessions().getAndValidateCurrentUser(cboShortSession);
 
-      if (validationResp.getError() != null) {
-        // Handle invalid token. In this case we will forward the error message to the page.
-        throw validationResp.getError();
-      }
-
       // get list of emails from identifier service
       List<Identifier> emails;
-
       emails = sdk.getIdentifiers().listAllEmailsByUserId(validationResp.getUserID());
-
-      //
       model.addAttribute("PROJECT_ID", projectID);
       model.addAttribute("USER_ID", validationResp.getUserID());
       model.addAttribute("USER_NAME", validationResp.getFullName());
@@ -88,7 +80,7 @@ public class FrontendController {
       model.addAttribute("USER_EMAIL", emails.get(0).getValue());
 
     } catch (final Exception e) {
-      System.out.println(e.getMessage());
+	  //Handle verification errors here
       model.addAttribute("ERROR", e.getMessage());
       return "error";
     }

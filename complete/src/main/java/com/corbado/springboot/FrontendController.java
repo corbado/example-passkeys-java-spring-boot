@@ -59,16 +59,16 @@ public class FrontendController {
    * Profile.
    *
    * @param model the model
-   * @param cboShortSession the cbo short session
+   * @param sessionToken the session token
    * @return the string
    */
   @RequestMapping("/profile")
   public String profile(
-      final Model model, @CookieValue("cbo_short_session") final String cboShortSession) {
+      final Model model, @CookieValue("cbo_session_token") final String sessionToken) {
     try {
       // Validate user from token
       final SessionValidationResult validationResp =
-          sdk.getSessions().getAndValidateCurrentUser(cboShortSession);
+          sdk.getSessions().getAndValidateCurrentUser(sessionToken);
 
       // get list of emails from identifier service
       List<Identifier> emails;
@@ -80,6 +80,8 @@ public class FrontendController {
       model.addAttribute("USER_EMAIL", emails.get(0).getValue());
 
     } catch (final Exception e) {
+      System.out.println(e);
+
 	  //Handle verification errors here
       model.addAttribute("ERROR", e.getMessage());
       return "error";

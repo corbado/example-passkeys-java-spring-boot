@@ -39,7 +39,7 @@ public class FrontendController {
       @Value("${projectID}") final String projectID, @Value("${apiSecret}") final String apiSecret)
       throws StandardException {
 	// Or use Config builder
-    final Config config = new Config(projectID, apiSecret);
+    final Config config = Config.builder().projectId(projectID).apiSecret(apiSecret).build();
     this.sdk = new CorbadoSdk(config);
   }
 

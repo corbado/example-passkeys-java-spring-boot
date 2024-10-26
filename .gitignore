@@ -17,4 +17,4 @@ README.html
 .idea
 *.iml
 output/
-application.properties
+complete/src/main/resources/application.properties/application.properties

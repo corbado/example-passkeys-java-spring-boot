@@ -25,7 +25,7 @@ Please see the [full blog post](https://www.corbado.com/blog/passkeys-java-sprin
 Please follow the steps in [Getting started](https://docs.corbado.com/overview/getting-started) to create and configure
 a project in the [Corbado developer panel](https://app.corbado.com/signin?framework=Java-Spring&technology=passkeys#register).
 
-Paste your Corbado project ID and API secret in the `applications.properties` file.
+Rename `complete/src/main/resources/applications.properties.example` to `complete/src/main/resources/applications.properties` and paste your Corbado project ID and api secret.
 
 ## Usage
 
